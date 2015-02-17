@@ -22,11 +22,14 @@ d2 = utils.replace_sing_quotes(d1)
 d3 = utils.del_indexsy_data(d2)
 jdatas = utils.json_datas(d3)
 lists = utils.get_datas(jdatas)
+xh = 0
 for list in lists:
-    print "==================="
     jjdm = list[setting.G_JJDM]
     jjmz = list[setting.G_JJMZ]
     dwjz = list[setting.G_DWJZ]
     sgzt = list[setting.G_SGZT]
-    print "jjdm:%s, jjmz:%s, dwjz:%s, sgzt:%s" % (jjdm, jjmz, dwjz, sgzt)
+    xh = xh + 1
+    print "xh:%.4d\t\tjjdm:%.6s\tjjmz:%.9s\t\tdwjz:%.6s\tsgzt:%.4s" % (xh, jjdm, jjmz, dwjz, sgzt)
+    if xh == 40:
+        break
 
