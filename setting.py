@@ -33,3 +33,8 @@ G_DATE_SELL = 'sell'
 
 # 购入份额 
 G_FUND_UNIT = 'unit'
+
+
+# log
+G_log_name = 'funds.log' 
+g_log_dir = '/var/log/'
