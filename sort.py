@@ -2,7 +2,9 @@
 
 import setting
 import utils
+import log
 
+logger = log.getMyLogger(__name__) 
 '''
 respone = urllib2.urlopen(setting.G_URL)
 tmpdata = respone.read()
@@ -14,7 +16,7 @@ data = re.sub(r"(\d+\.\d+,)+", r"", d2)
 jdata = json.loads(data)
 lists = jdata['datas']
 '''
-url = setting.G_URL + setting.G_NUMBER + setting.G_OTHERS
+url = setting.G_URL + setting.G_TOTAL + setting.G_OTHERS
 respone = utils.get_original_data(url)
 d0 = utils.get_jijin_data(respone)
 d1 = utils.add_sing_quotes(d0)
@@ -30,6 +32,7 @@ for list in lists:
     sgzt = list[setting.G_SGZT]
     xh = xh + 1
     print "xh:%.4d\t\tjjdm:%.6s\tjjmz:%.9s\t\tdwjz:%.6s\tsgzt:%.4s" % (xh, jjdm, jjmz, dwjz, sgzt)
+    logger.info("xh:%d" % (xh))
     if xh == 40:
         break
 

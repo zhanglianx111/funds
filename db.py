@@ -2,11 +2,11 @@
 # coding=utf-8
 
 import pymongo
-import logging
+import log
 
 import setting
 
-logger = logging.getLogger(__name__)
+logger = log.getMyLogger(__name__)
 
 
 class Mongodb(object):

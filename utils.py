@@ -3,9 +3,9 @@
 import re
 import json
 import urllib2
-import logging
+import log
 
-logger = logging.getLogger(__name__)
+logger = log.getMyLogger(__name__)
 
 
 def get_original_data(url):
@@ -75,7 +75,7 @@ def replace_sing_quotes(funds_data):
         logger.debug("replace sing quotes OK")
         return data
     else:
-        logging.debug("replace sing quotes failed")
+        loger.debug("replace sing quotes failed")
         return None
 
 
