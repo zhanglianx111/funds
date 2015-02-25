@@ -36,5 +36,6 @@ G_FUND_UNIT = 'unit'
 
 
 # log
-G_log_name = 'funds.log' 
-g_log_dir = '/var/log/'
+G_LOG_NAME = 'funds.log' 
+G_LOG_DIR = '/var/log/'
+#G_LOG_LEVEL = logging.INFO
