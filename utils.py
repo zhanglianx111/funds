@@ -7,6 +7,18 @@ import log
 
 logger = log.getMyLogger(__name__)
 
+'''
+respone = urllib2.urlopen(setting.G_URL)
+tmpdata = respone.read()
+d0 = tmpdata.split('=', 2)[1]
+
+d1 = re.sub(r"(\s?)(\w+):", r"'\2':", d0)
+d2 = d1.replace("'", "\"")
+data = re.sub(r"(\d+\.\d+,)+", r"", d2)
+jdata = json.loads(data)
+lists = jdata['datas']
+'''
+
 
 def get_original_data(url):
     if url == "":
@@ -57,7 +69,7 @@ def del_indexsy_data(funds_data):
     if funds_data is None:
         return None
 
-    data = re.sub(r"(\d+\.\d+,)", r"", funds_data)
+    data = re.sub(r"([-?]\d+\.\d+,)", r"", funds_data)
     if data != "":
         logger.debug("delete indexsy's data OK")
         return data
@@ -91,8 +103,9 @@ def get_datas(funds_data):
         logger.error("convert json data failed")
         return None
 
+
 def json_datas(datas):
-    if datas == None:
+    if datas is None:
         logger.error("datas is None")
         return None
 

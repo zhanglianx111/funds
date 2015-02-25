@@ -7,7 +7,7 @@ import log
 import setting
 
 logger = log.getMyLogger(__name__)
-
+# DBClient = None
 
 class Mongodb(object):
 
@@ -22,18 +22,16 @@ class Mongodb(object):
         self.user = db_user
         self.passwd = db_passwd
         self.client = None
-
-    def connection(self):
-        if not self.conn:
-            self.conn = pymongo.MongoClient(self.host, self.port)
+        if self.client is None:
+            self.client = pymongo.MongoClient(self.host, self.port)
 
         # TODO add user and password authrizion
 
-        return self.client
+        #return self.client 
 
     def get_db(self, db_name):
         try:
-            return self.client.db_name
+            return self.client[db_name]
         except InvalidName:
             logger.error("Invalid database name:%s" % db_name)
             return None
@@ -64,13 +62,13 @@ class Mongodb(object):
     '''
 
     def list_databases(self):
-        return self.database_name()
+        return self.client.database_name()
 
     def create_col(self, db, col_name):
-        return db.col_name
+        return db[col_name]
 
     def delete_col(self, db, col_name):
-        pass
+        db.drop_collection(col_name)
 
     def get_db_collection(self, db, collection):
         return db.collection_names()
@@ -81,5 +79,10 @@ class Mongodb(object):
     def find_one(self, col_name, key):
         return col_name.find_one(key)
 
+    def document_count(self, col_name):
+        return col_name.count()
+
     def find_all(self, col_name):
         return col_name.find()
+
+DB = Mongodb(setting.G_HOST, setting.G_PORT)
