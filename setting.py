@@ -7,10 +7,20 @@ G_OTHERS = '&dt=1424049754634&atfc=%onlySale=0'
 G_TOTAL = '2500'
 G_ONCE = 400
 
+'''jjdm:基金代码
+   jjmz:基金名字
+   dwjz:单位净值
+   sgzt:申购状态
+'''
 G_JJDM = 0
 G_JJMZ = 1
 G_DWJZ = 3
 G_SGZT = 9
+
+G_NAME_JJDM = 'jjdm'
+G_NAME_JJMZ = 'jjmz'
+G_NAME_DWJZ = 'dwjz'
+G_NAME_SGZT = 'gszt'
 
 G_DB_FUNDS = 'funds'
 
