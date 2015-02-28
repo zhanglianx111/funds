@@ -3,19 +3,18 @@
 
 import pymongo
 import log
-
 import setting
 
 logger = log.getMyLogger(__name__)
-# DBClient = None
+
 
 class Mongodb(object):
 
     def __init__(self,
                  db_host,
                  db_port,
-                 db_user = None,
-                 db_passwd = None):
+                 db_user=None,
+                 db_passwd=None):
 
         self.host = db_host
         self.port = db_port
@@ -26,8 +25,6 @@ class Mongodb(object):
             self.client = pymongo.MongoClient(self.host, self.port)
 
         # TODO add user and password authrizion
-
-        #return self.client 
 
     def get_db(self, db_name):
         try:

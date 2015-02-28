@@ -62,11 +62,11 @@ for list in lists:
     daily = {
         G_NAME_JJDM: jjdm,
         G_NAME_DWJZ: dwjz,
-        #setting.G_NAME_JLRQ: datetime.date.today()}
+        # setting.G_NAME_JLRQ: datetime.date.today()}
         G_NAME_JLRQ: datetime.datetime(G_YEAR, G_MONTH, G_DAY)}
 
     DB.insert_data2col(db_funds_table_daily, daily)
-    print daily 
+    print daily
 
 print "========================"
 #fd = {'key': jjdm}

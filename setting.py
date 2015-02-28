@@ -1,5 +1,6 @@
 #!/usr/bin/env python
 # coding=utf-8
+
 from datetime import date
 
 G_URL = 'http://fund.eastmoney.com/Data/Fund_JJJZ_Data.aspx?t=1&lx=1&letter=&gsid=&text=&sort=zdf,desc&page=1,'
@@ -31,7 +32,7 @@ G_TABLE_FUNDS_INDEX = 'index'
 G_TABLE_RECORD_DAILY = 'daily'
 G_TABLE_FUNDS_BOUGHT = 'buy'
 
-# 下列字段用于buy表 
+# 下列字段用于buy表
 # 买入基金代码
 G_FUNDS_INDEX = 'funds_index'
 
@@ -44,12 +45,12 @@ G_DATE_BUY = 'buy'
 # 卖出日期
 G_DATE_SELL = 'sell'
 
-# 购入份额 
+# 购入份额
 G_FUND_UNIT = 'unit'
 
 
 # log
-G_LOG_NAME = 'funds.log' 
+G_LOG_NAME = 'funds.log'
 G_LOG_DIR = '/var/log/'
 #G_LOG_LEVEL = logging.INFO
 
