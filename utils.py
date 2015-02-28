@@ -69,7 +69,7 @@ def del_indexsy_data(funds_data):
     if funds_data is None:
         return None
 
-    data = re.sub(r"([-?]\d+\.\d+,)", r"", funds_data)
+    data = re.sub(r"(\d+\.\d+,)|(-\d+\.\d+,)", r"", funds_data)
     if data != "":
         logger.debug("delete indexsy's data OK")
         return data
