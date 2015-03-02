@@ -5,7 +5,7 @@ import utils
 import log
 import sys
 import datetime
-from db import DB
+from database import DB
 from setting import *
 
 logger = log.getMyLogger(__name__)
@@ -66,7 +66,7 @@ for list in lists:
         G_NAME_JLRQ: datetime.datetime(G_YEAR, G_MONTH, G_DAY)}
 
     DB.insert_data2col(db_funds_table_daily, daily)
-    print daily
+    #print daily
 
 print "========================"
 #fd = {'key': jjdm}
