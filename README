@@ -1,11 +1,11 @@
 *命令行说明*
 删除数据库
+funds -delete --database db_name
 funds -d -db db_name
-funds -d --database db_name
 
 删除数据库表
 funds -d -db db_name -t table_name
-funds -d --database db_name --table table_name
+funds -delete --database db_name --table table_name
 
 清空数据库表内容
 funds --clear --database db_name --table table_name
@@ -29,6 +29,4 @@ funds -l -s +/-
 
 list: 列出购买基金信息
 sort: 按收益率排序
-
-多次购买基金数据变更
 
