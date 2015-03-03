@@ -22,14 +22,20 @@ class Mongodb(object):
         self.passwd = db_passwd
         self.client = None
         if self.client is None:
-            self.client = pymongo.MongoClient(self.host, self.port)
+            try:
+                self.client = pymongo.MongoClient(self.host, self.port)
+            except pymongo.errors.ConnectionFailure, e:
+                logger.error(
+                    "connect Mongodb[%s:%d] failed, error:%s" %
+                    (self.host, self.port, e))
+                return None
 
         # TODO add user and password authrizion
 
     def get_db(self, db_name):
         try:
             return self.client[db_name]
-        except InvalidName:
+        except pymongo.errors.InvalidName:
             logger.error("Invalid database name:%s" % db_name)
             return None
 

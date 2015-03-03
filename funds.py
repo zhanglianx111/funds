@@ -11,10 +11,14 @@ from setting import *
 logger = log.getMyLogger(__name__)
 
 if __name__ == '__main__':
+    if DB.client is None:
+        logger.error("can not find DB")
+        sys.exit(1)
+
     db_funds = DB.get_db(G_DB_FUNDS)
     if db_funds is None:
         logger.error("get database(%s) failed" % (G_DB_FUNDS))
-        sys.exit(1)
+        sys.exit(2)
 
     '''
     创建 基金代码和基金名字 表
@@ -24,7 +28,7 @@ if __name__ == '__main__':
         logger.error(
             "get collection col[%s] of db[%s] failed" %
             (setting.G_TABLE_FUNDS_INDEX, G_DB_FUNDS))
-        sys.exit(2)
+        sys.exit(3)
 
     '''
     创建记录 每日基金净值 表
@@ -34,7 +38,7 @@ if __name__ == '__main__':
         logger.error(
             "get collection col[%s] of db[%s] failed" %
             (setting.G_TABLE_RECORD_DAILY, G_DB_FUNDS))
-        sys.exit(3)
+        sys.exit(4)
 
     url = G_URL + G_TOTAL + G_OTHERS
     respone = utils.get_original_data(url)
