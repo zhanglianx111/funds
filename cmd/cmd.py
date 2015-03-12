@@ -2,32 +2,25 @@
 # coding=utf-8
 
 import sys
-from optparse import OptionParser
+import argparse
 
-if __name__ == '__main__':
-    print sys.argv
-    command = sys.argv[1]
-    if command == "delete":
-        print command
-        args = sys.argv[2:]
-        print args
-    elif command == "clear":
-        print command
-    elif command == "calculate":
-        print command
-    else:
-        print "not command %s" % (command)
-    sys.exit(0)
-    op = OptionParser()
-    print op
-    op.add_option(
-        "--db",
-        "--database",
-        action="store",
-        type="string",
-        help="delete database",
-        dest="db_name")
-    options, args = op.parse_args()
-    print options.db_name
-    print args
+parser = argparse.ArgumentParser(prog='fund')
+parser.add_argument('--foo', action='store_true', help='foo help')
+subparser = parser.add_subparsers(help='sub-command help')
+
+# create the parser for sub-command 'delete'
+parser_delete = subparser.add_parser('delete', help='delete help')
+parser_delete.add_argument('bar', type=int, help='bar help')
+
+# create the parser for sub-command 'clear'
+parser_clear = subparser.add_parser('clear', help='clear help')
+parser_clear.add_argument('--baz', choices='xyz', help='baz help')
+
+# create the parser for sub-command 'calculate'
+
+parser_calculate = subparser.add_parser('calculate', help='calculate help')
+parser_calculate.add_argument('--x', choices='nnn', help='x help')
+
+
+
 
