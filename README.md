@@ -1,19 +1,18 @@
-#命令行说明
+##命令行说明
 ================================
-## 删除数据库
+#### 删除数据库
 ```funds delete --database db_name```
 ```funds delete -db db_name```
 
-## 删除数据库表
+#### 删除数据库表
 ```funds delete -db db_name -t table_name```
 ```funds delete --database db_name --table table_name```
 
-## 清空数据库表内容
+#### 清空数据库表内容
 ```funds clear --database db_name --table table_name```
 ```funds clear -db db_name -t table_name```
 
-## 计算所有基金在一段时间内的增长百分比，并支持
-指定数目按增序、降序排列基金，申购状态。
+#### 计算所有基金在一段时间内的增长百分比，并支持指定数目按增序、降序排列基金，申购状态。
 例如从2015.1.10---2015.1.20的增长百分比。
 ```funds calculate --name fund_name --from time1 --to time2 --sort +/-```
 ```funds calculate -n fund_name -f time1 -t time2 -s +/-```
@@ -24,7 +23,7 @@ to: 结束时间点，默认值为当前时间点之前的一周
 sort: 输出的排列次序。“+”代表升序；“-”代表降序，默认值为降序
 
 
-## show已购买基金信息，包括：基金名、购买时间、购买金额、收益率、收益、持有份额，申购状态
+#### show已购买基金信息，包括：基金名、购买时间、购买金额、收益率、收益、持有份额，申购状态
 ```funds list --sort +/-```
 ```funds list -s +/-```
 
