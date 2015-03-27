@@ -1,12 +1,11 @@
 ##命令行说明
 ================================
 #### 删除数据库
-```funds delete --database db_name```
-```funds delete -db db_name```
+```funds delete-db db_name```
 
 #### 删除数据库表
-```funds delete -db db_name -t table_name```
-```funds delete --database db_name --table table_name```
+```funds delete-tb -db db_name -t table_name```
+```funds delete-tb --database db_name --table table_name```
 
 #### 清空数据库表内容
 ```funds clear --database db_name --table table_name```
