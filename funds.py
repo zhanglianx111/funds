@@ -3,9 +3,9 @@
 
 import sys
 import argparse
-#import log
+import log
 
-#logger = log.getMyLogger(__name__)
+logger = log.getMyLogger(__name__)
 
 def del_db(args):
     print 'del-db %s' % (args.database_name)
@@ -88,7 +88,7 @@ if __name__ == '__main__':
     sub_cmd = sys.argv[1]
 
     if command.has_key(sub_cmd):
-#        logger.debug(sys.argv)
+        logger.debug(sys.argv)
         print sys.argv
         pargs = command[sub_cmd].parse_args(sys.argv[2:])
         pargs.func(pargs)
