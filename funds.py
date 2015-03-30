@@ -4,6 +4,7 @@
 import sys
 import argparse
 import log
+from handler.calculate import *
 
 logger = log.getMyLogger(__name__)
 
@@ -18,10 +19,10 @@ def del_tb(args):
 def clear(args):
     print 'clear %s %s' % (args.database, args.table)
 
-
+'''
 def calculate(args):
     print 'calculate %s %s %s %s' % (args.name, args.frm, args.to, args.sort)
-
+'''
 
 parser = argparse.ArgumentParser(prog='funds')
 subparser = parser.add_subparsers(help='sub-command help')
@@ -55,7 +56,7 @@ parser_calculate.add_argument('-n', '--name', default=None, help='name of a fund
 parser_calculate.add_argument('-f', '--frm', help='date from')
 parser_calculate.add_argument('-t', '--to', help='to date')
 parser_calculate.add_argument('-s', '--sort', default='-', help='sort result')
-parser_calculate.set_defaults(func=calculate)
+parser_calculate.set_defaults(func=handler_calc)
 
 '''
 args = parser_calculate.parse_args(['-f', '11', '-t', '22'])
