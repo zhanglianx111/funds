@@ -3,7 +3,7 @@
 
 import sys
 import argparse
-import log
+#import log
 
 #logger = log.getMyLogger(__name__)
 
