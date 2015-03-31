@@ -73,7 +73,7 @@ class Mongodb(object):
     def delete_col(self, db, col_name):
         db.drop_collection(col_name)
 
-    def get_db_collection(self, db, collection):
+    def list_db_collection(self, db, collection):
         return db.collection_names()
 
     def insert_data2col(self, col_name, data):

@@ -77,4 +77,6 @@ if __name__ == '__main__':
     #fd = {'key': jjdm}
     fd = {G_NAME_JJDM: jjdm}
     print DB.find_one(db_funds_table_index, fd)
+    print DB.find_one(db_funds_table_daily, fd)
+    logger.error(fd)
     #DB.delete_col(db_funds, db_funds_table_index)

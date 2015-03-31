@@ -53,8 +53,9 @@ args.func(args.database, args.table)
 # create the parser for sub-command 'calculate'
 parser_calculate = subparser.add_parser('calculate', help='计算基金在某个时间段内的增量率')
 parser_calculate.add_argument('-n', '--name', default=None, help='name of a fund')
-parser_calculate.add_argument('-f', '--frm', help='date from')
-parser_calculate.add_argument('-t', '--to', help='to date')
+parser_calculate.add_argument('-f', '--frm', default=datetime.date.today(), help='date from')
+parser_calculate.add_argument('-t', '--to', type=int, default=7, help='to date')
+parser_calculate.add_argument('-c', '--count', type=int, default=5, help='show count')
 parser_calculate.add_argument('-s', '--sort', default='-', help='sort result')
 parser_calculate.set_defaults(func=handler_calc)
 
