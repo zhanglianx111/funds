@@ -8,20 +8,25 @@ from setting import *
 from database import DB
 
 logger = log.getMyLogger(__name__)
-
+TIME = datetime.datetime.now().strftime('%Y-%m-%d') + '20:01:01'
 
 def handler_calc(args):
     if args is None:
         logger.error("args is None")
         return "args is None"
 
-    #print args
+    print args
+    print TIME
+    #return
     name = args.name
     frm = args.frm
     to = args.to
     sort = args.sort
     count = args.count
 
+    
+
+    '''
     if frm is None:
         fYear = G_YEAR
         fMonth = G_MONTH
@@ -33,11 +38,9 @@ def handler_calc(args):
         fMonth = int(frm.split('.')[1])
         fDay = int(frm.split('.')[2])
 
-    '''
     fYear = 2015
     fMonth = 3
-    fDay = 3
-    '''
+    fDay 3
     fromDate = [fYear, fMonth, fDay]
 
     if to is None or len(to.split('.')) != 3:
@@ -48,6 +51,8 @@ def handler_calc(args):
     tDay = int(to.split('.')[2])
     toDate = [tYear, tMonth, tDay]
     #print "to date is:", tYear, tMonth, tDay
+
+    '''
 
     if DB.client is None:
         logger.error("can not find DB")
@@ -91,7 +96,9 @@ def calc_single(name, f, t, collection):
     tDwjz = float(pTo['dwjz'])
 
     inc = (tDwjz - fDwjz) / fDwjz
-    print f, ":", fDwjz,"-->", t,":", tDwjz, ", inc:", inc, ", jjdm:", pTo['jjdm']
+    print f, ":", fDwjz,"-->", t,":", tDwjz, ", inc:", inc * 100, "%", ", jjdm:", pTo['jjdm']
+    print ""
+    print ".3f(%s) --> .3f(%s)" % (fDwjz, datetime.datetime(t[0],t[1],t[2]))
     return
 
 def calc_all(fDate, tDate, count, srt, col_daily):

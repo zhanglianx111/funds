@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # coding=utf-8
 
-from datetime import date
+from datetime import date, datetime
 
 G_URL = 'http://fund.eastmoney.com/Data/Fund_JJJZ_Data.aspx?t=1&lx=1&letter=&gsid=&text=&sort=zdf,desc&page=1,'
 G_OTHERS = '&dt=1424049754634&atfc=%onlySale=0'
@@ -62,3 +62,4 @@ G_PORT = 27017
 G_YEAR = date.today().year
 G_MONTH = date.today().month
 G_DAY = date.today().day
+TIME = datetime.now() + ' 23:59:59'
