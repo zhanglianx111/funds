@@ -53,7 +53,7 @@ def handler_calc(args):
         return "can not find DB"
 
     db = DB.get_db(G_DB_FUNDS)
-    print db
+    #print db
     if db is None:
         logger.error("get database(%s) failed" % (G_DB_FUNDS))
         return "get database(%s) failed" % (G_DB_FUNDS)
@@ -63,23 +63,19 @@ def handler_calc(args):
         logger.error("can not get collection(%s)" % G_TABLE_RECORD_DAILY)
         return "can not get collection(%s)" % G_TABLE_RECORD_DAILY
 
-    fdFrom={G_NAME_JLRQ:datetime.datetime(fYear, fMonth, fDay)}
+    fdFrom={G_NAME_JJDM:name, G_NAME_JLRQ:datetime.datetime(fYear, fMonth, fDay)}
     pFrom = DB.find_one(col_daily, fdFrom)
-    print pFrom
-    print "--", type(pFrom)
-    #print "--", json.
+    print "from:", pFrom
 
-    fdTo = {G_NAME_JLRQ:datetime.datetime(tYear, tMonth, tDay)}
+    fdTo = {G_NAME_JJDM: name, G_NAME_JLRQ:datetime.datetime(tYear, tMonth, tDay)}
     pTo = DB.find_one(col_daily, fdTo)
-    #print pFrom['dwjz'], pTo['dwjz'] 
-    print pTo
-    #return 
+    print "to:", pTo
     fDwjz = float(pFrom['dwjz'])
     tDwjz = float(pTo['dwjz'])
-    print fDwjz, tDwjz
 
-    inc = (tDwjz - fDwjz)/ fDwjz
-    print inc
+    inc = (tDwjz - fDwjz) / fDwjz
+    print "to:", tDwjz,", from:",fDwjz, ", inc:", inc, ", jjdm:", pTo['jjdm']
+    return 
 
     if name is None:
         cnt = 0
