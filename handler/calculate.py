@@ -33,11 +33,11 @@ def handler_calc(args):
         fMonth = int(frm.split('.')[1])
         fDay = int(frm.split('.')[2])
 
-    #print "from date is:", fYear, fMonth, fDay
-
+    '''
     fYear = 2015
     fMonth = 3
     fDay = 3
+    '''
     fromDate = [fYear, fMonth, fDay]
 
     if to is None or len(to.split('.')) != 3:
@@ -91,7 +91,7 @@ def calc_single(name, f, t, collection):
     tDwjz = float(pTo['dwjz'])
 
     inc = (tDwjz - fDwjz) / fDwjz
-    print "to:", tDwjz,", from:",fDwjz, ", inc:", inc, ", jjdm:", pTo['jjdm']
+    print f, ":", fDwjz,"-->", t,":", tDwjz, ", inc:", inc, ", jjdm:", pTo['jjdm']
     return
 
 def calc_all(fDate, tDate, count, srt, col_daily):
