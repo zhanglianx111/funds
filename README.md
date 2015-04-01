@@ -1,5 +1,5 @@
 ##命令行说明
-----
+<hr>
 #### 删除数据库
 >- ```funds delete-db db_name```
 
