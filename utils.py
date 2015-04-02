@@ -19,7 +19,6 @@ jdata = json.loads(data)
 lists = jdata['datas']
 '''
 
-
 def get_original_data(url):
     if url == "":
         logger.error("funds server url is None")

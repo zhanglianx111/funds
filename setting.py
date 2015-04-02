@@ -62,4 +62,4 @@ G_PORT = 27017
 G_YEAR = date.today().year
 G_MONTH = date.today().month
 G_DAY = date.today().day
-TIME = datetime.now() + ' 23:59:59'
+#TIME = date.today().strftime('%Y-%m-%d') + ' 23:59:59'
