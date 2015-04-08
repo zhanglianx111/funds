@@ -34,6 +34,7 @@ def handler_calc(args):
         logger.error("can not get collection(%s)" % G_TABLE_RECORD_DAILY)
         return "can not get collection(%s)" % G_TABLE_RECORD_DAILY
 
+
     if frm is None:
         fromDate = getSomeday(date.today().strftime('%Y-%m-%d'), 1).strftime('%Y-%m-%d')
     else:
@@ -41,15 +42,16 @@ def handler_calc(args):
             return "from date format is error"
     
         fromDate = datetime.strptime(frm, "%Y.%m.%d").strftime('%Y-%m-%d')
+
     if name is not None:
-        calc_single(name, fromDate, to, col_daily)
+        calc_single(name, fromDate, to, col_daily, db)
         return
     else:
-        calc_all(fromDate, to, count, sort, col_daily)
+        calc_all(fromDate, to, count, sort, col_daily, db)
         return
 
 
-def calc_single(name, f, delta, collection):
+def calc_single(name, f, delta, collection, dbase):
     logger.debug("name:%s, from day:%s, delta:%d" % (name, f, delta))
     col_daily = collection
 
@@ -72,20 +74,34 @@ def calc_single(name, f, delta, collection):
         print "no serach data at to:", sday 
         return
 
+    col_index = DB.create_col(dbase, G_TABLE_FUNDS_INDEX)
+    if col_index is None:
+        logger.error("can not get collection(%s)" % (G_TABLE_FUNDS_INDEX))
+        return "can not get collection(%s)" % G_TABLE_FUNDS_INDEX
+    
+    fdIndex = {
+        G_NAME_JJDM: name
+    }
+    index = DB.find_one(col_index, fdIndex)
+    if index is None:
+        logger.debug("no found jjdm:%s" %(name))
+
+    mz = index[G_NAME_JJMZ]
+
     fDwjz = float(pFrom['dwjz'])
     tDwjz = float(pTo['dwjz'])
     
     inc = (tDwjz - fDwjz) / fDwjz
     if delta <= 0:
-        print f, ":", fDwjz, "-->", sday, ":", tDwjz, ", inc:", inc * 100, "%", ", jjdm:", pTo['jjdm']
+        print f, ":", fDwjz, "-->", sday, ":", tDwjz, ", inc:", inc * 100, "%", ", jjdm:", pTo['jjdm'], ", jjmz:", mz
         print ""
     else:
-        print sday, ":", tDwjz, "-->", f, ":", fDwjz, ", inc:", -inc * 100, "%", ", jjdm:", pTo['jjdm'] 
+        print sday, ":", tDwjz, "-->", f, ":", fDwjz, ", inc:", -inc * 100, "%", ", jjdm:", pTo['jjdm'], ", jjmz:", mz 
         print
     return
 
 
-def calc_all(fDate, tDate, count, srt, col_daily):
+def calc_all(fDate, tDate, count, srt, col_daily, dbase):
     cnt = 0
     for post in DB.find_all(col_daily):
         if post is not None and cnt < count:
