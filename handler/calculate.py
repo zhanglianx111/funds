@@ -2,6 +2,7 @@
 # coding=utf-8
 
 import log
+import heapq
 from datetime import datetime, date, timedelta
 from database import DB
 from setting import *
@@ -30,9 +31,10 @@ def handler_calc(args):
         return "get database(%s) failed" % (G_DB_FUNDS)
 
     col_daily = DB.create_col(db, G_TABLE_RECORD_DAILY)
-    if col_daily is None:
-        logger.error("can not get collection(%s)" % G_TABLE_RECORD_DAILY)
-        return "can not get collection(%s)" % G_TABLE_RECORD_DAILY
+    col_index = DB.create_col(db, G_TABLE_FUNDS_INDEX)
+    if col_daily is None or col_index is None:
+        logger.error("can not get collection(%s or %s)" % (G_TABLE_RECORD_DAILY, G_TABLE_FUNDS_INDEXi))
+        return "can not get collection(%s)" % (G_TABLE_RECORD_DAILY,G_TABLE_FUNDS_INDEX)
 
 
     if frm is None:
@@ -44,16 +46,17 @@ def handler_calc(args):
         fromDate = datetime.strptime(frm, "%Y.%m.%d").strftime('%Y-%m-%d')
 
     if name is not None:
-        calc_single(name, fromDate, to, col_daily, db)
+        calc_single(name, fromDate, to, col_daily, col_index)
         return
     else:
-        calc_all(fromDate, to, count, sort, col_daily, db)
+        calc_all(fromDate, to, count, sort, col_daily, col_index)
         return
 
 
-def calc_single(name, f, delta, collection, dbase):
+def calc_single(name, f, delta, daily_col, index_col):
     logger.debug("name:%s, from day:%s, delta:%d" % (name, f, delta))
-    col_daily = collection
+    col_daily = daily_col
+    col_index = index_col
 
     fdFrom = {
         G_NAME_JJDM: name,
@@ -73,11 +76,6 @@ def calc_single(name, f, delta, collection, dbase):
     if pTo is None:
         print "no serach data at to:", sday 
         return
-
-    col_index = DB.create_col(dbase, G_TABLE_FUNDS_INDEX)
-    if col_index is None:
-        logger.error("can not get collection(%s)" % (G_TABLE_FUNDS_INDEX))
-        return "can not get collection(%s)" % G_TABLE_FUNDS_INDEX
     
     fdIndex = {
         G_NAME_JJDM: name
@@ -87,22 +85,41 @@ def calc_single(name, f, delta, collection, dbase):
         logger.debug("no found jjdm:%s" %(name))
 
     mz = index[G_NAME_JJMZ]
-
-    fDwjz = float(pFrom['dwjz'])
-    tDwjz = float(pTo['dwjz'])
+    if len(pFrom['dwjz']) == 0 or len(pTo['dwjz'])  == 0:
+        fDwjz = tDwjz = 0
+    else:
+        fDwjz = float(pFrom['dwjz'])
+        tDwjz = float(pTo['dwjz'])
     
-    inc = (tDwjz - fDwjz) / fDwjz
+    if fDwjz == 0:
+        inc = 0
+    else:
+        inc = (tDwjz - fDwjz) / fDwjz
+
     if delta <= 0:
         print f, ":", fDwjz, "-->", sday, ":", tDwjz, ", inc:", inc * 100, "%", ", jjdm:", pTo['jjdm'], ", jjmz:", mz
         print ""
     else:
         print sday, ":", tDwjz, "-->", f, ":", fDwjz, ", inc:", -inc * 100, "%", ", jjdm:", pTo['jjdm'], ", jjmz:", mz 
         print
-    return
+    return {'jjdm': pTo['jjdm'], 'jjmz': mz, 'inc': inc}
 
 
-def calc_all(fDate, tDate, count, srt, col_daily, dbase):
+def calc_all(fDate, tDate, count, srt, daily_col, index_col):
     cnt = 0
+    cnt1 = 0
+    result = []
+    r_index = []
+
+    for idx in DB.find_all(index_col):
+        #print idx
+        tmp_r = None
+        tmp_r = calc_single(idx['jjdm'], fDate, tDate, daily_col, index_col)
+        #print tmp_r
+        r_index.append(tmp_r)
+    #print r_index
+    #return
+
     for post in DB.find_all(col_daily):
         if post is not None and cnt < count:
             cnt += 1
