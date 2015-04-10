@@ -65,7 +65,7 @@ def calc_single(name, f, delta, daily_col, index_col, prnt):
     }
     pFrom = DB.find_one(col_daily, fdFrom)
     if pFrom is None:
-        print "no serach data at from:", f
+        print "no serach data at from: %s, %s" % (f, name)
         pFrom = {G_NAME_JJDM: name, G_NAME_DWJZ:'0'}
 
     sday = getSomeday(f, delta)
@@ -75,7 +75,7 @@ def calc_single(name, f, delta, daily_col, index_col, prnt):
     }
     pTo = DB.find_one(col_daily, fdTo)
     if pTo is None:
-        print "no serach data at to:", sday 
+        print "no serach data at to: %s, %s" % (sday, name) 
         pTo = {G_NAME_JJDM: name, G_NAME_DWJZ:'0'}
 
     fdIndex = {
@@ -100,9 +100,9 @@ def calc_single(name, f, delta, daily_col, index_col, prnt):
         inc = (tDwjz - fDwjz) / fDwjz
     if prnt == 1: 
         if delta <= 0:
-            print "%.4f  %s  %5s  %s(%s) --> %s(%s)" % (inc,  pTo[G_NAME_JJDM], mz, fDwjz, f, tDwjz, sday)
+            print "%.4f%%  %s  %s  %s(%s) --> %s(%s)" % (inc*100,  pTo[G_NAME_JJDM], mz, fDwjz, f, tDwjz, sday)
         else:
-            print "%.4f  %s  %5s  %s(%s) --> %s(%s)" % (-inc, pTo[G_NAME_JJDM], mz, tDwjz, sday, fDwjz, f)
+            print "%.4f%%  %s  %s  %s(%s) --> %s(%s)" % (-inc*100, pTo[G_NAME_JJDM], mz, tDwjz, sday, fDwjz, f)
     
     return {'jjdm': pTo['jjdm'], 'jjmz': mz, 'inc': inc}
 
@@ -124,9 +124,9 @@ def calc_all(fDate, tDate, count, srt, daily_col, index_col, prnt):
         flag = False
 
     sorted_inc = sorted(r_index, key=operator.itemgetter('inc'), reverse=flag)
-    #print sorted_inc
+    print sorted_inc
     for i in range(count):
-        print "jjdm: %s   jjmz: %s  inc: %.4f" % (sorted_inc[i][G_NAME_JJDM], sorted_inc[i][G_NAME_JJMZ], sorted_inc[i]['inc'])
+        print "%.4f%%  jjdm: %s  jjmz: %s" % (sorted_inc[i]['inc']*100, sorted_inc[i][G_NAME_JJDM], sorted_inc[i][G_NAME_JJMZ])
 
     return
 
