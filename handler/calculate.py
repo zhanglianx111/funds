@@ -124,7 +124,6 @@ def calc_all(fDate, tDate, count, srt, daily_col, index_col, prnt):
         flag = False
 
     sorted_inc = sorted(r_index, key=operator.itemgetter('inc'), reverse=flag)
-    print sorted_inc
     for i in range(count):
         print "%.4f%%  jjdm: %s  jjmz: %s" % (sorted_inc[i]['inc']*100, sorted_inc[i][G_NAME_JJDM], sorted_inc[i][G_NAME_JJMZ])
 
