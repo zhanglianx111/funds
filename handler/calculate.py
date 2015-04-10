@@ -3,6 +3,7 @@
 
 import log
 import heapq
+import operator
 from datetime import datetime, date, timedelta
 from database import DB
 from setting import *
@@ -46,14 +47,14 @@ def handler_calc(args):
         fromDate = datetime.strptime(frm, "%Y.%m.%d").strftime('%Y-%m-%d')
 
     if name is not None:
-        calc_single(name, fromDate, to, col_daily, col_index)
+        calc_single(name, fromDate, to, col_daily, col_index, 1)
         return
     else:
-        calc_all(fromDate, to, count, sort, col_daily, col_index)
+        calc_all(fromDate, to, count, sort, col_daily, col_index, 0)
         return
 
 
-def calc_single(name, f, delta, daily_col, index_col):
+def calc_single(name, f, delta, daily_col, index_col, prnt):
     logger.debug("name:%s, from day:%s, delta:%d" % (name, f, delta))
     col_daily = daily_col
     col_index = index_col
@@ -65,8 +66,8 @@ def calc_single(name, f, delta, daily_col, index_col):
     pFrom = DB.find_one(col_daily, fdFrom)
     if pFrom is None:
         print "no serach data at from:", f
-        return
-    
+        pFrom = {G_NAME_JJDM: name, G_NAME_DWJZ:'0'}
+
     sday = getSomeday(f, delta)
     fdTo = {
         G_NAME_JJDM: name,
@@ -75,14 +76,16 @@ def calc_single(name, f, delta, daily_col, index_col):
     pTo = DB.find_one(col_daily, fdTo)
     if pTo is None:
         print "no serach data at to:", sday 
-        return
-    
+        pTo = {G_NAME_JJDM: name, G_NAME_DWJZ:'0'}
+
     fdIndex = {
         G_NAME_JJDM: name
     }
     index = DB.find_one(col_index, fdIndex)
     if index is None:
         logger.debug("no found jjdm:%s" %(name))
+        print "no found jjdm:", name
+        return {}
 
     mz = index[G_NAME_JJMZ]
     if len(pFrom['dwjz']) == 0 or len(pTo['dwjz'])  == 0:
@@ -95,30 +98,37 @@ def calc_single(name, f, delta, daily_col, index_col):
         inc = 0
     else:
         inc = (tDwjz - fDwjz) / fDwjz
-
-    if delta <= 0:
-        print f, ":", fDwjz, "-->", sday, ":", tDwjz, ", inc:", inc * 100, "%", ", jjdm:", pTo['jjdm'], ", jjmz:", mz
-        print ""
-    else:
-        print sday, ":", tDwjz, "-->", f, ":", fDwjz, ", inc:", -inc * 100, "%", ", jjdm:", pTo['jjdm'], ", jjmz:", mz 
-        print
+    if prnt == 1: 
+        if delta <= 0:
+            print "%.4f  %s  %5s  %s(%s) --> %s(%s)" % (inc,  pTo[G_NAME_JJDM], mz, fDwjz, f, tDwjz, sday)
+        else:
+            print "%.4f  %s  %5s  %s(%s) --> %s(%s)" % (-inc, pTo[G_NAME_JJDM], mz, tDwjz, sday, fDwjz, f)
+    
     return {'jjdm': pTo['jjdm'], 'jjmz': mz, 'inc': inc}
 
 
-def calc_all(fDate, tDate, count, srt, daily_col, index_col):
+def calc_all(fDate, tDate, count, srt, daily_col, index_col, prnt):
     cnt = 0
-    cnt1 = 0
-    result = []
     r_index = []
 
     for idx in DB.find_all(index_col):
-        #print idx
         tmp_r = None
-        tmp_r = calc_single(idx['jjdm'], fDate, tDate, daily_col, index_col)
-        #print tmp_r
-        r_index.append(tmp_r)
+        tmp_r = calc_single(idx['jjdm'], fDate, tDate, daily_col, index_col, 0)
+        if tmp_r != {}:
+            r_index.append(tmp_r)
+
     #print r_index
-    #return
+    if srt == '-':
+        flag = True
+    else:
+        flag = False
+
+    sorted_inc = sorted(r_index, key=operator.itemgetter('inc'), reverse=flag)
+    #print sorted_inc
+    for i in range(count):
+        print "jjdm: %s   jjmz: %s  inc: %.4f" % (sorted_inc[i][G_NAME_JJDM], sorted_inc[i][G_NAME_JJMZ], sorted_inc[i]['inc'])
+
+    return
 
     for post in DB.find_all(col_daily):
         if post is not None and cnt < count:

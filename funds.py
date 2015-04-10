@@ -4,7 +4,7 @@
 import sys
 import argparse
 import log
-from datetime import date
+from datetime import date, datetime
 from handler.calculate import *
 
 logger = log.getMyLogger(__name__)
@@ -45,7 +45,7 @@ parser_calculate = subparser.add_parser('calculate', help='计算基金在某个
 parser_calculate.add_argument('-n', '--name', default=None, help='name of a fund')
 parser_calculate.add_argument('-f', '--frm', default=None, help='date from')
 parser_calculate.add_argument('-t', '--to', type=int, default=7, help='to date')
-parser_calculate.add_argument('-c', '--count', type=int, default=5, help='show count')
+parser_calculate.add_argument('-c', '--count', type=int, default=30, help='show count')
 parser_calculate.add_argument('-s', '--sort', default='-', help='sort result')
 parser_calculate.set_defaults(func=handler_calc)
 
@@ -63,6 +63,9 @@ command = {'delete_db': parser_deleteDb,
 
 if __name__ == '__main__':
     #print sys.argv
+    print datetime.now()
+    print
+
     if len(sys.argv) < 2:
         parser.parse_args(['-h'])
 
@@ -70,7 +73,7 @@ if __name__ == '__main__':
 
     if command.has_key(sub_cmd):
         logger.debug(sys.argv)
-        print sys.argv
+        #print sys.argv
         pargs = command[sub_cmd].parse_args(sys.argv[2:])
         pargs.func(pargs)
     else:
