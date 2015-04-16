@@ -24,6 +24,7 @@ def handler_calc(args):
 
     if DB.client is None:
         logger.error("can not find DB")
+        print "can not found DB"
         return "can not find DB"
 
     db = DB.get_db(G_DB_FUNDS)
@@ -124,8 +125,10 @@ def calc_all(fDate, tDate, count, srt, daily_col, index_col, prnt):
         flag = False
 
     sorted_inc = sorted(r_index, key=operator.itemgetter('inc'), reverse=flag)
-    for i in range(count):
+    for i in range(len(sorted_inc)):
         print "%.4f%%  jjdm: %s  jjmz: %s" % (sorted_inc[i]['inc']*100, sorted_inc[i][G_NAME_JJDM], sorted_inc[i][G_NAME_JJMZ])
+        if i >= count:
+            break
 
     return
 
