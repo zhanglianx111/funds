@@ -4,7 +4,6 @@
 import utils
 import log
 import sys
-import datetime
 from database import DB
 from setting import *
 
@@ -68,7 +67,7 @@ if __name__ == '__main__':
             G_NAME_JJDM: jjdm,
             G_NAME_DWJZ: dwjz,
             # setting.G_NAME_JLRQ: datetime.date.today()}
-            G_NAME_JLRQ: datetime.datetime(G_YEAR, G_MONTH, G_DAY)}
+            G_NAME_JLRQ: datetime(G_YEAR, G_MONTH, G_DAY)}
 
         DB.insert_data2col(db_funds_table_daily, daily)
         #print daily

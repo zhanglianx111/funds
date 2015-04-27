@@ -55,7 +55,7 @@ G_LOG_DIR = '/var/log/'
 #G_LOG_LEVEL = logging.INFO
 
 # mongodb
-G_HOST = '127.0.0.1'
+G_HOST = '10.154.156.201'
 G_PORT = 27017
 
 # date
