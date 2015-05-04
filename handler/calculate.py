@@ -66,7 +66,8 @@ def calc_single(name, f, delta, daily_col, index_col, prnt):
     }
     pFrom = DB.find_one(col_daily, fdFrom)
     if pFrom is None:
-        print "no serach data at from: %s, %s" % (f, name)
+        #print "no serach data at from: %s, %s" % (f, name)
+        logger.error("no serach data at from: %s, %s" % (f, name))
         pFrom = {G_NAME_JJDM: name, G_NAME_DWJZ:'0'}
 
     sday = getSomeday(f, delta)
@@ -76,7 +77,8 @@ def calc_single(name, f, delta, daily_col, index_col, prnt):
     }
     pTo = DB.find_one(col_daily, fdTo)
     if pTo is None:
-        print "no serach data at to: %s, %s" % (sday, name) 
+        #print "no serach data at to: %s, %s" % (sday, name) 
+        logger.error("no serach data at to: %s, %s" % (sday, name))
         pTo = {G_NAME_JJDM: name, G_NAME_DWJZ:'0'}
 
     fdIndex = {
