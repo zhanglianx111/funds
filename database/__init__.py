@@ -29,7 +29,7 @@ class Mongodb(object):
                     "connect Mongodb[%s:%d] failed, error:%s" %
                     (self.host, self.port, e))
                 return None
-
+            logger.info("connect to Mongodb[%s:%d] OK" % (self.host, self.port))
         # TODO add user and password authrizion
 
     def get_db(self, db_name):
